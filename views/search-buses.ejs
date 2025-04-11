@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Search Buses</title>
+  <style>
+    body { font-family: Arial; background-color: #f5f7fa; margin: 0; padding: 20px; }
+    .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+    form { display: flex; flex-wrap: wrap; gap: 15px; align-items: center; margin-bottom: 30px; }
+    label { flex: 1 0 100px; font-weight: bold; }
+    select, input[type="datetime-local"] { flex: 1 0 200px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+    button { padding: 10px 20px; background: #4e73df; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #375ab7; }
+
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 12px; border: 1px solid #ddd; text-align: center; }
+    th { background-color: #4e73df; color: white; }
+    tr:nth-child(even) { background-color: #f2f2f2; }
+    .no-result { text-align: center; margin-top: 20px; font-weight: bold; color: red; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Search Available Buses</h2>
+
+    <form action="/search" method="POST">
+      <label for="from">From:</label>
+      <select name="from" required>
+        <option value="">-- Select From --</option>
+        <% locations.forEach(loc => { %>
+          <option value="<%= loc %>" <%= loc === from ? 'selected' : '' %>><%= loc %></option>
+        <% }) %>
+      </select>
+
+      <label for="to">To:</label>
+      <select name="to" required>
+        <option value="">-- Select To --</option>
+        <% locations.forEach(loc => { %>
+          <option value="<%= loc %>" <%= loc === to ? 'selected' : '' %>><%= loc %></option>
+        <% }) %>
+      </select>
+
+      <label for="departure_time">Departure After:</label>
+      <input type="datetime-local" name="departure_time" value="<%= selectedTime || '' %>">
+
+      <button type="submit">Search</button>
+    </form>
+
+    <% if (buses.length > 0) { %>
+      <table>
+        <thead>
+          <tr>
+            <th>Bus ID</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Departure Time</th>
+            <th>Fare (₹)</th>
+            <th>Estimated Duration</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% buses.forEach(bus => { %>
+            <tr>
+              <td><%= bus.bus_id %></td>
+              <td><%= bus.from_location %></td>
+              <td><%= bus.to_location %></td>
+              <td><%= new Date(bus.departure_time).toLocaleString('en-IN') %></td>
+              <td><%= bus.fare %></td>
+              <td><%= bus.estimated_duration %> mins</td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } else if (typeof buses !== 'undefined') { %>
+      <div class="no-result">No buses found for your criteria.</div>
+    <% } %>
+  </div>
+</body>
+</html>

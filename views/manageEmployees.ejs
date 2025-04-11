@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Employees</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f2f4f8;
+  }
+  
+  header {
+    background: linear-gradient(to right, #6b4bff, #9e8cff);
+    padding: 1rem 2rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .logo img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+  }
+  
+  .nav-links {
+    display: flex;
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    color: #fff;
+    transition: background-color 0.3s;
+  }
+  
+  .nav-links a:hover {
+    background-color: rgba(255,255,255,0.2);
+    border-radius: 4px;
+  }
+  
+  .logout-form button {
+    background-color: #dc3545;
+    color: white;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .logout-form button:hover {
+    background-color: #c82333;
+  }
+  
+  h1 {
+    text-align: center;
+    margin-top: 30px;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .flash-success,
+  .flash-error {
+    width: 80%;
+    margin: 20px auto;
+    padding: 12px 18px;
+    border-radius: 6px;
+    font-weight: 500;
+    text-align: center;
+  }
+  
+  .flash-success {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    border: 1px solid #badbcc;
+  }
+  
+  .flash-error {
+    background-color: #f8d7da;
+    color: #842029;
+    border: 1px solid #f5c2c7;
+  }
+  
+  .employee-table {
+    width: 95%;
+    margin: 40px auto;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(0,0,0,0.05);
+  }
+  
+  .employee-table th {
+    background-color: #5A8DEE;
+    color: white;
+    padding: 14px;
+  }
+  
+  .employee-table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #e0e0e0;
+    background-color: #fdfdfd;
+  }
+  
+  .employee-table tr:nth-child(even) {
+    background-color: #f5f7fa;
+  }
+  
+  button {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .btn-edit {
+    background-color: #28a745;
+    color: white;
+    transition: background 0.2s;
+  }
+  
+  .btn-edit:hover {
+    background-color: #218838;
+  }
+  
+  .btn-delete {
+    background-color: #dc3545;
+    color: white;
+    transition: background 0.2s;
+  }
+  
+  .btn-delete:hover {
+    background-color: #c82333;
+  }
+  
+  .add-employee-form {
+    width: 60%;
+    margin: 50px auto;
+    background-color: #ffffff;
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.08);
+  }
+  
+  .add-employee-form h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #444;
+  }
+  
+  .add-employee-form label {
+    display: block;
+    margin-top: 15px;
+    font-weight: 600;
+    color: #555;
+  }
+  
+  .add-employee-form input,
+  .add-employee-form select,
+  .add-employee-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 4px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #fdfdfd;
+  }
+  
+  .add-employee-form textarea {
+    resize: vertical;
+  }
+  
+  .add-employee-form button {
+    display: block;
+    margin: 25px auto 0;
+    background-color: #5A8DEE;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .add-employee-form button:hover {
+    background-color: #3f6dd8;
+  }
+  
+  form[method="GET"] {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin: 30px auto 0;
+    width: 90%;
+  }
+  
+  form[method="GET"] select {
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  form[method="GET"] .btn {
+    background-color: #5A8DEE;
+    color: white;
+    font-weight: bold;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  form[method="GET"] .btn:hover {
+    background-color: #4a6dc0;
+  }
+  .nav-links{
+    margin: 0px; 
+  }
+  nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 0;
+}
+
+.logout-form {
+  margin: 0;
+  width: 0px;
+}
+
+.logout-form button {
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-form button:hover {
+  background-color: #c82333;
+}
+header {
+      background: linear-gradient(to right, #6b4bff, #9e8cff);
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+  
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+  
+    .logo img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+  
+    .nav-links a {
+      text-decoration: none;
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      color: white;
+      border-radius: 5px;
+      transition: background 0.3s, color 0.3s;
+    }
+  
+    .nav-links a:hover {
+      background-color: rgba(56, 117, 112, 0.24);
+      color: white;
+    }
+  
+    .logout-form {
+      margin-left: 20px;
+    }
+  
+    h1 {
+      font-weight: 600;
+      color: #453c99;
+      margin-top: 2rem;
+    }
+  
+    .btn-toggle {
+      margin: 20px auto;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+  
+    .btn-toggle .btn {
+      min-width: 120px;
+      transition: all 0.2s ease;
+      border-radius: 8px;
+    }
+  
+    .btn-toggle .btn:hover,
+    .btn-toggle .btn:focus {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <img src="/images/Logo.png" alt="Logo">
+      </div>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/adminDashboard">Dashboard</a>
+        <a href="/manage-buses">Manage Buses</a>
+        <a href="/routes">Manage Routes</a>
+        <a href="/assign-routes">Assign Routes</a>
+        <form class="logout-form" action="/logout" method="GET" style="width: 100px; margin-bottom: 20px;">
+          <button type="submit" class="btn btn-outline-dark">Logout</button>
+        </form>
+      </div>
+      </div>
+    </nav>
+  </header>
+<div id="dummy"></div>
+  <h1>Manage Employees</h1>
+
+  <% if (messages && messages.success && messages.success.length > 0) { %>
+    <div class="flash-success"><%= messages.success[0] %></div>
+  <% } %>
+  <% if (messages && messages.error && messages.error.length > 0) { %>
+    <div class="flash-error"><%= messages.error[0] %></div>
+  <% } %>
+  
+  <form method="GET" action="/manage-employees" style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
+    <select name="view">
+      <option value="own" <%= viewAll ? '' : 'selected' %>>My Department</option>
+      <option value="all" <%= viewAll ? 'selected' : '' %>>All Departments</option>
+    </select>
+  
+    <select name="status">
+      <option value="all" <%= statusFilter === 'all' ? 'selected' : '' %>>All Employees</option>
+      <option value="active" <%= statusFilter === 'active' ? 'selected' : '' %>>Active</option>
+      <option value="inactive" <%= statusFilter === 'inactive' ? 'selected' : '' %>>Inactive</option>
+    </select>
+  
+    <select name="role">
+      <option value="all" <%= roleFilter === 'all' ? 'selected' : '' %>>All Roles</option>
+      <option value="Manager" <%= roleFilter === 'Manager' ? 'selected' : '' %>>Manager</option>
+      <option value="Driver" <%= roleFilter === 'Driver' ? 'selected' : '' %>>Driver</option>
+      <option value="Conductor" <%= roleFilter === 'Conductor' ? 'selected' : '' %>>Conductor</option>
+    </select>
+  
+    <button type="submit" class="btn btn-primary">Filter</button>
+  </form>
+  
+  
+  <table class="employee-table">
+    <thead>
+      <tr>
+        <th>ID</th><th>Name</th><th>DOB</th><th>Gender</th><th>Salary</th><th>Job</th><th>Contact</th><th>Address</th><th>Hire Date</th><th>Dept</th><th>Status</th><th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% employees.forEach((emp, index) => { %>
+        <tr id="row-<%= index %>">
+          <td><%= emp.emp_id %></td>
+          <td><%= emp.name %></td>
+          <td><%= emp.dob.toISOString().split('T')[0] %></td>
+          <td><%= emp.gender %></td>
+          <td><%= emp.salary %></td>
+          <td><%= emp.job_title %></td>
+          <td><%= emp.contact %></td>
+          <td><%= emp.address %></td>
+          <td><%= emp.hire_date.toISOString().split('T')[0] %></td>
+          <td><%= emp.dept_id %></td>
+          <td><%= emp.status ? 'Active' : 'Inactive' %></td>
+          <td>
+            <% if (emp.dept_id === user.dept_id) { %>
+              <button type="button" class="btn-edit" onclick="toggleEdit('<%= index %>')">Edit</button>
+              <% if (emp.emp_id !== user.manager_id && emp.job_title !== 'Manager') { %>
+                <form action="/delete-employee/<%= emp.emp_id %>" method="POST" style="display:inline;">
+                  <button type="submit" class="btn-delete" onclick="return confirm('Delete employee?')">Delete</button>
+                </form>
+              <% } else { %>
+                <span style="font-size: 0.85rem; color: gray;">Manager (cannot delete)</span>
+              <% } %>
+            <% } else { %>
+              <span style="color: gray;">Unauthorized</span>
+            <% } %>
+          </td>
+        </tr>
+
+        <% if (emp.dept_id === user.dept_id) { %>
+          <form action="/edit-employee/<%= emp.emp_id %>" method="POST">
+            <tr id="edit-row-<%= index %>" style="display:none;">
+              <td colspan="12">
+                <input type="text" name="name" value="<%= emp.name %>" required>
+                <input type="date" name="dob" value="<%= emp.dob.toISOString().split('T')[0] %>" required>
+                <select name="gender"><option value="Male" <%= emp.gender === 'Male' ? 'selected' : '' %>>Male</option><option value="Female" <%= emp.gender === 'Female' ? 'selected' : '' %>>Female</option></select>
+                <input type="number" name="salary" value="<%= emp.salary %>" required>
+                <select name="job_title"><option value="Manager" <%= emp.job_title === 'Manager' ? 'selected' : '' %>>Manager</option><option value="Driver" <%= emp.job_title === 'Driver' ? 'selected' : '' %>>Driver</option><option value="Conductor" <%= emp.job_title === 'Conductor' ? 'selected' : '' %>>Conductor</option></select>
+                <input type="text" name="contact" value="<%= emp.contact %>" required>
+                <input type="text" name="address" value="<%= emp.address %>" required>
+                <input type="date" name="hire_date" value="<%= emp.hire_date.toISOString().split('T')[0] %>" required>
+                <select name="status"><option value="true" <%= emp.status ? 'selected' : '' %>>Active</option><option value="false" <%= !emp.status ? 'selected' : '' %>>Inactive</option></select>
+                <button type="submit" class="btn-edit">Save</button>
+                <button type="button" class="btn-delete" onclick="cancelEdit('<%= index %>')">Cancel</button>
+              </td>
+            </tr>
+          </form>
+        <% } %>
+      <% }) %>
+    </tbody>
+  </table>
+
+  <form class="add-employee-form" action="/manage-employees" method="POST">
+    <h3>Add New Employee</h3>
+    <label>Name</label>
+    <input type="text" name="name" required>
+    <label>DOB</label>
+    <input type="date" name="dob" required>
+    <label>Gender</label>
+    <select name="gender" required><option value="">-- Select --</option><option>Male</option><option>Female</option></select>
+    <label>Salary</label>
+    <input type="number" name="salary" required>
+    <label>Job Title</label>
+    <select name="job_title" required><option value="">-- Select --</option><option>Driver</option><option>Conductor</option></select>
+    <label>Contact</label>
+    <input type="text" name="contact" required>
+    <label>Address</label>
+    <textarea name="address" required></textarea>
+    <label>Hire Date</label>
+    <input type="date" name="hire_date" required>
+    <label>Status</label>
+    <select name="status" required><option value="">-- Select --</option><option value="true">Active</option><option value="false">Inactive</option></select>
+    <button type="submit">Add Employee</button>
+  </form>
+
+  <script>
+    function toggleEdit(index) {
+      document.getElementById(`row-${index}`).style.display = 'none';
+      document.getElementById(`edit-row-${index}`).style.display = 'table-row';
+    }
+    function cancelEdit(index) {
+      document.getElementById(`edit-row-${index}`).style.display = 'none';
+      document.getElementById(`row-${index}`).style.display = 'table-row';
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const success = document.querySelector('.flash-success');
+      const error = document.querySelector('.flash-error');
+      setTimeout(() => {
+        if (success) success.style.display = 'none';
+        if (error) error.style.display = 'none';
+      }, 3000);
+    });
+  </script>
+</body>
+</html>

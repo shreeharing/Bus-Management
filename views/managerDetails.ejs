@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manager Details</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f3f5fa;
+      color: #333;
+    }
+  
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      color: #453c99;
+      margin-top: 40px;
+      font-weight: 600;
+    }
+  
+    .add-employee-form {
+      width: 60%;
+      max-width: 700px;
+      margin: 40px auto;
+      background-color: #ffffff;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    }
+  
+    .add-employee-form label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #555;
+    }
+  
+    .add-employee-form input,
+    .add-employee-form select,
+    .add-employee-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      background-color: #fdfdfd;
+    }
+  
+    .add-employee-form textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+  
+    .add-employee-form button {
+      display: block;
+      margin: 25px auto 0;
+      background-color: #5A8DEE;
+      color: white;
+      font-weight: bold;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+    }
+  
+    .add-employee-form button:hover {
+      background-color: #3f6dd8;
+    }
+  
+    .error-message {
+      color: red;
+      text-align: center;
+      font-weight: 500;
+      margin-top: 20px;
+    }
+  
+    /* Optional: smooth transition on focus */
+    .add-employee-form input:focus,
+    .add-employee-form select:focus,
+    .add-employee-form textarea:focus {
+      outline: none;
+      border-color: #5A8DEE;
+      box-shadow: 0 0 0 2px rgba(90, 141, 238, 0.2);
+    }
+  </style>
+  </head>
+<body>
+  <h1 style="text-align:center;">Enter Manager Details</h1>
+
+  <% if (messages.error_msg) { %>
+    <div style="color:red;text-align:center;">
+      <% messages.error_msg.forEach(msg => { %><p><%= msg %></p><% }) %>
+    </div>
+  <% } %>
+
+  <form class="add-employee-form" action="/manager-details" method="POST">
+    <!-- Existing fields -->
+    <label for="manager_name">Manager Name</label>
+    <input type="text" name="manager_name" id="manager_name" required>
+
+  
+    <label for="dob">Date of Birth</label>
+    <input type="date" name="dob" id="dob" required>
+  
+    <label for="gender">Gender</label>
+    <select name="gender" id="gender" required>
+      <option value="">-- Select Gender --</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+    </select>
+  
+    <label for="salary">Salary</label>
+    <input type="number" name="salary" id="salary" placeholder="e.g. 50000" required>
+  
+    <label for="contact">Contact</label>
+    <input type="text" name="contact" id="contact" required>
+  
+    <label for="address">Address</label>
+    <textarea name="address" id="address" required></textarea>
+  
+    <label for="hire_date">Hire Date</label>
+    <input type="date" name="hire_date" id="hire_date" required>
+  
+    <label for="status">Status</label>
+    <select name="status" id="status" required>
+      <option value="">-- Select Status --</option>
+      <option value="true">Active</option>
+      <option value="false">Inactive</option>
+    </select>
+  
+    <input type="hidden" name="job_title" value="Manager">
+    <button type="submit">Save Manager</button>
+  </form>
+  
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bus Management System</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    header {
+      background: linear-gradient(to right, #0d6efd, #6f42c1);
+      padding: 1rem 2rem;
+      z-index: 5;
+    }
+
+    .logo img {
+      width: 60px;
+      height: 60px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+
+    .nav-links a {
+      color: white;
+      font-weight: 500;
+      text-decoration: none;
+      margin: 0 12px;
+    }
+
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+
+    .main-container {
+      padding: 40px 20px;
+    }
+
+    .info h1 {
+      color: #343a40;
+    }
+
+    .search-form {
+      margin-top: 60px;
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .form-group select {
+      width: 100%;
+      padding: 10px 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .search-form button {
+      width: 100%;
+      padding: 12px;
+      background-color: #0d6efd;
+      border: none;
+      color: white;
+      font-weight: 600;
+      border-radius: 5px;
+      transition: 0.3s ease;
+    }
+
+    .search-form button:hover {
+      background-color: #0b5ed7;
+    }
+
+    .footer-div {
+      background: #343a40;
+      color: #ccc;
+      margin-top: 80px;
+      padding: 30px 0;
+    }
+
+    .footer-div .nav-link {
+      color: #aaa;
+    }
+
+    .footer-div .nav-link:hover {
+      color: white;
+    }
+
+    .footer-div p {
+      color: #aaa;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .search-form {
+        padding: 20px;
+      }
+    }
+    .info:hover {
+  transform: scale(1.02);
+  transition: all 0.3s ease;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  background-color: #ffffffef;
+}
+.container img:hover {
+  transform: scale(1.02);
+  transition: all 0.3s ease;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  background-color: #ffffffef;
+}
+.search-form:hover {
+  transform: scale(1.02);
+  transition: all 0.3s ease;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  background-color: #ffffffef;
+}
+
+  </style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">
+      <a href="/"><img src="./images/Logo.png" alt="Logo"></a>
+    </div>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/login">Login</a>
+      <a href="/register">Register</a>
+      <a href="/contact">Contact</a>
+    </div>
+  </nav>
+</header>
+
+<div class="main-container">
+  <!-- Hero Section -->
+  <div class="container col-xxl-08 px-4 py-5">
+    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+      <div class="col-10 col-sm-8 col-lg-6">
+        <img src="./images/busphoto.avif" class="d-block mx-lg-auto img-fluid" alt="Bus image" width="250" height="250" loading="lazy">
+      </div>
+      <div class="col-lg-6 info">
+        <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">WELCOME TO MY DBMS PROJECT</h1>
+        <p class="lead">
+          BusDB is a powerful web-based database management system built to streamline bus transport operations. From managing buses, drivers, and conductors to assigning routes and tracking schedules — this system simplifies it all through a clean, intuitive interface.
+        </p>
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Form -->
+  <div class="search-form">
+    <form id="searchForm" action="/search" method="POST" onsubmit="return validateSearch()">
+      <div class="form-group">
+        <label for="from">From Location:</label>
+        <select id="from" name="from" required>
+          <option value="">-- Select From --</option>
+          <% locations.forEach(loc => { %>
+            <option value="<%= loc %>"><%= loc %></option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="to">To Location:</label>
+        <select id="to" name="to" required>
+          <option value="">-- Select To --</option>
+          <% locations.forEach(loc => { %>
+            <option value="<%= loc %>"><%= loc %></option>
+          <% }) %>
+        </select>
+      </div>
+
+      <button type="submit">Search Buses</button>
+    </form>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="container-fluid footer-div">
+  <footer class="py-3">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a href="/" class="nav-link px-2">Home</a></li>
+      <li class="nav-item"><a href="/login" class="nav-link px-2">Admin Login</a></li>
+      <li class="nav-item"><a href="/register" class="nav-link px-2">Admin Register</a></li>
+      <li class="nav-item"><a href="/contact" class="nav-link px-2">Contact Us</a></li>
+      <li class="nav-item"><a href="/about" class="nav-link px-2">About Us</a></li>
+    </ul>
+    <p class="text-center">© 2025 BusDB Inc.</p>
+  </footer>
+</div>
+
+<script>
+  const fromSelect = document.getElementById("from");
+  const toSelect = document.getElementById("to");
+
+  const allFromOptions = Array.from(fromSelect.options).filter(o => o.value);
+  const allToOptions = Array.from(toSelect.options).filter(o => o.value);
+
+  function updateOptions(source, target, options) {
+    const selectedVal = source.value;
+    const currentTargetVal = target.value;
+
+    target.innerHTML = '<option value="">-- Select --</option>';
+    options.forEach(opt => {
+      if (opt.value !== selectedVal) {
+        const clone = opt.cloneNode(true);
+        if (clone.value === currentTargetVal) clone.selected = true;
+        target.appendChild(clone);
+      }
+    });
+  }
+
+  fromSelect.addEventListener("change", () => updateOptions(fromSelect, toSelect, allToOptions));
+  toSelect.addEventListener("change", () => updateOptions(toSelect, fromSelect, allFromOptions));
+
+  function validateSearch() {
+    const from = fromSelect.value;
+    const to = toSelect.value;
+    if (from === to) {
+      alert("From and To locations cannot be the same.");
+      return false;
+    }
+    return true;
+  }
+</script>
+
+</body>
+</html>

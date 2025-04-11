@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Assign Routes</title>
+  <style>
+/* Title */
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  color: #4b4b8f;
+  margin-top: 30px;
+}
+
+/* Flash messages */
+.flash-success,
+.flash-error {
+  width: 80%;
+  margin: 20px auto;
+  padding: 12px 18px;
+  border-radius: 6px;
+  font-weight: 500;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.flash-success {
+  background-color: #d1e7dd;
+  color: #0f5132;
+  border: 1px solid #badbcc;
+}
+
+.flash-error {
+  background-color: #f8d7da;
+  color: #842029;
+  border: 1px solid #f5c2c7;
+}
+
+/* Filter form */
+form[method="GET"] {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin: 30px auto;
+  width: 90%;
+}
+
+form[method="GET"] select {
+  padding: 10px 15px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+form[method="GET"] button {
+  background-color: #5A8DEE;
+  color: white;
+  font-weight: bold;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+form[method="GET"] button:hover {
+  background-color: #4a6dc0;
+}
+
+/* Table */
+.route-table {
+  width: 95%;
+  margin: 30px auto;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0,0,0,0.05);
+}
+
+.route-table th {
+  background-color: #5A8DEE;
+  color: white;
+  padding: 14px;
+}
+
+.route-table td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #e0e0e0;
+  background-color: #fdfdfd;
+}
+
+.route-table tr:nth-child(even) {
+  background-color: #f5f7fa;
+}
+
+/* Form styling */
+.add-route-form {
+  width: 60%;
+  margin: 50px auto;
+  background-color: #ffffff;
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.08);
+}
+
+.add-route-form h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #444;
+}
+
+.add-route-form label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 600;
+  color: #555;
+}
+
+.add-route-form input,
+.add-route-form select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 4px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: #fdfdfd;
+}
+
+.add-route-form button {
+  display: block;
+  margin: 25px auto 0;
+  background-color: #5A8DEE;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.add-route-form button:hover {
+  background-color: #3f6dd8;
+}
+
+/* Release button */
+form[action^="/release-assignment"] button {
+  background-color: #dc3545;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+form[action^="/release-assignment"] button:hover {
+  background-color: #bd2f39;
+}
+
+body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f0f2f5;
+    }
+  
+    header {
+      background: linear-gradient(to left, #F8FAFC, #D9EAFD, #BCCCDC, #9AA6B2);
+      padding: 1rem 2rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  
+    .logo img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+    }
+  
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+  
+    .nav-links a {
+      text-decoration: none;
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      color: #222;
+    }
+  
+    .nav-links a:hover {
+      background-color: rgba(56, 117, 112, 0.2);
+      border-radius: 4px;
+    }
+  
+    .flash-success {
+      color: green;
+      text-align: center;
+      margin-top: 10px;
+    }
+  
+    .flash-error {
+      color: red;
+      text-align: center;
+      margin-top: 10px;
+    }
+  
+    .route-table {
+      width: 90%;
+      margin: 30px auto;
+      border-collapse: collapse;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+  
+    .route-table th,
+    .route-table td {
+      padding: 12px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+  
+    .route-table th {
+      background-color: #6c7a89;
+      color: white;
+    }
+  
+    .add-route-form {
+      width: 60%;
+      margin: 40px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+  
+    .add-route-form h3 {
+      margin-bottom: 20px;
+    }
+  
+    .add-route-form label {
+      font-weight: bold;
+      display: block;
+      margin: 10px 0 5px;
+    }
+  
+    .add-route-form select,
+    .add-route-form input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+  
+    .add-route-form button {
+      background-color: #8F87F1;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  
+    .add-route-form button:hover {
+      background-color: #6f6ae2;
+    }
+    .logout-form button {
+      background: #8F87F1;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .logout-form button :hover{
+      background: #2d2581;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    header {
+      background: linear-gradient(to right, #6b4bff, #9e8cff);
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+  
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+  
+    .logo img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+  
+    .nav-links a {
+      text-decoration: none;
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      color: white;
+      border-radius: 5px;
+      transition: background 0.3s, color 0.3s;
+    }
+  
+    .nav-links a:hover {
+      background-color: rgba(56, 117, 112, 0.24);
+      color: white;
+    }
+  
+    .logout-form {
+      margin-left: 20px;
+    }
+  
+    h1 {
+      font-weight: 600;
+      color: #453c99;
+      margin-top: 2rem;
+    }
+  
+    .btn-toggle {
+      margin: 20px auto;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+  
+    .btn-toggle .btn {
+      min-width: 120px;
+      transition: all 0.2s ease;
+      border-radius: 8px;
+    }
+  
+    .btn-toggle .btn:hover,
+    .btn-toggle .btn:focus {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f3f5fa;
+  color: #333;
+}
+
+  </style>
+  
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <img src="/images/Logo.png" alt="Logo" style="width: 60px; height: 60px; border-radius: 50%;">
+      </div>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/adminDashboard">Dashboard</a>
+        <a href="/manage-buses">Manage Buses</a>
+        <a href="/manage-employees">Manage Employees</a>
+        <a href="/routes">Manage Routes</a>
+        <form class="logout-form" action="/logout" method="GET" style="margin: 0px;width: 100px;">
+          <button type="submit">Logout</button>
+        </form>
+      </div>
+    </nav>
+  </header>
+
+  <h1 style="text-align: center; margin-top: 20px;">Assign Routes</h1>
+
+  <% if (messages.success_msg) { %>
+    <div class="flash-success">
+      <% messages.success_msg.forEach(msg => { %><p><%= msg %></p><% }) %>
+    </div>
+  <% } %>
+
+  <% if (messages.error_msg) { %>
+    <div class="flash-error">
+      <% messages.error_msg.forEach(msg => { %><p><%= msg %></p><% }) %>
+    </div>
+  <% } %>
+  <form method="GET" action="/assign-routes" style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 30px;">
+    <select name="view">
+      <option value="own" <%= viewAll ? '' : 'selected' %>>My Assignments</option>
+      <option value="all" <%= viewAll ? 'selected' : '' %>>All Assignments</option>
+    </select>
+    <button type="submit" style="background-color: #5A8DEE; color: white; border: none; padding: 10px 16px; border-radius: 5px;">Filter</button>
+  </form>
+  
+  <!-- Existing Assignments -->
+  <table class="route-table">
+    <thead>
+      <tr>
+        <th>Bus ID</th>
+        <th>Driver</th>
+        <th>Conductor</th>
+        <th>Route</th>
+        <th>Departure Time</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% assignments.forEach(row => { %>
+        <tr>
+          <td><%= row.bus_id %></td>
+          <td><%= row.driver_name %></td>
+          <td><%= row.conductor_name %></td>
+          <td><%= row.from_loc %> → <%= row.to_loc %></td>
+          <td><%= new Date(row.departure_time).toLocaleString('en-IN', {
+            day: '2-digit', month: 'short', year: 'numeric',
+            hour: '2-digit', minute: '2-digit',
+            hour12: true
+          }) %></td>
+          
+          <td>
+            <form action="/release-assignment/<%= row.assign_id %>" method="POST" onsubmit="return confirm('Release this assignment?');">
+              <button type="submit" style="background-color: #dc3545; color: white; padding: 6px 12px; border: none; border-radius: 4px;">Release</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  
+  
+
+  <!-- Assignment Form -->
+  <form class="add-route-form" action="/assign-routes" method="POST" onsubmit="return validateDateTime()">
+    <h3 style="text-align: center;">Assign New Route</h3>
+  
+    <label for="bus_id">Select Bus</label>
+    <select name="bus_id" required>
+      <% buses.forEach(bus => { %>
+        <option value="<%= bus.bus_id %>">Bus <%= bus.bus_id %> - Capacity: <%= bus.capacity %></option>
+      <% }) %>
+    </select>
+  
+    <label for="driver_id">Select Driver</label>
+    <select name="driver_id" required>
+      <% drivers.forEach(emp => { %>
+        <option value="<%= emp.emp_id %>"><%= emp.name %></option>
+      <% }) %>
+    </select>
+  
+    <label for="conductor_id">Select Conductor</label>
+    <select name="conductor_id" required>
+      <% conductors.forEach(emp => { %>
+        <option value="<%= emp.emp_id %>"><%= emp.name %></option>
+      <% }) %>
+    </select>
+  
+    <label for="route_id">Select Route</label>
+    <select name="route_id" required>
+      <% routes.forEach(route => { %>
+        <option value="<%= route.route_id %>"><%= route.from_loc %> → <%= route.to_loc %></option>
+      <% }) %>
+    </select>
+  
+    <label for="departure_time">Departure Date & Time</label>
+<input type="datetime-local" name="departure_time" id="departure_time" required>
+
+
+  
+    <button type="submit">Assign Route</button>
+  </form>
+  
+</body>
+<script>
+    function pad(n) {
+      return n < 10 ? '0' + n : n;
+    }
+  
+    function setMinDateTime() {
+      const input = document.getElementById('departure_time');
+      const now = new Date();
+  
+      const year = now.getFullYear();
+      const month = pad(now.getMonth() + 1);
+      const day = pad(now.getDate());
+      const hour = pad(now.getHours());
+      const minute = pad(now.getMinutes());
+  
+      const formatted = `${year}-${month}-${day}T${hour}:${minute}`;
+      input.min = formatted;
+    }
+  
+    function validateDateTime() {
+      const datetimeInput = document.getElementById('departure_time');
+      const selected = new Date(datetimeInput.value);
+      const now = new Date();
+  
+      if (!datetimeInput.value) {
+        alert("Please select a departure date and time.");
+        return false;
+      }
+  
+      if (selected.getTime() <= now.getTime()) {
+        alert("Departure time must be in the future.");
+        return false;
+      }
+  
+      return true;
+    }
+  
+    window.addEventListener('DOMContentLoaded', setMinDateTime);
+  </script>
+  
+
+</html>

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Routes</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .route-table {
+      width: 90%;
+      margin: 40px auto;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .route-table th, .route-table td {
+      padding: 12px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+
+    .route-table th {
+      background-color: #6c7a89;
+      color: #fff;
+    }
+
+    .route-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .add-route-form {
+      width: 60%;
+      margin: 40px auto;
+      background-color: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .add-route-form label {
+      display: block;
+      font-weight: bold;
+      margin: 10px 0 5px;
+    }
+
+    .add-route-form input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 12px;
+      font-size: 1rem;
+    }
+
+    .add-route-form button {
+      background-color: #8F87F1;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .add-route-form button:hover {
+      background-color: #6f6ae2;
+    }
+
+    .flash-success { color: green; text-align: center; margin-top: 10px; }
+    .flash-error { color: red; text-align: center; margin-top: 10px; }
+    .nav-links{
+      margin: 0px;
+      gap: 20px;
+    }
+    .nav-links a:hover{
+      background-color: #667779;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #F7F9FC;
+    }
+
+    header {
+      background: linear-gradient(135deg, #6b4bff, #9e8cff);
+      padding: 1.5rem 2rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .logo img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.8rem 1.5rem;
+      color: #fff;
+      transition: background-color 0.3s;
+    }
+
+    .nav-links a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+    }
+
+    .logout-form button {
+      background-color: #dc3545;
+      color: white;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .logout-form button:hover {
+      background-color: #c82333;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 2.5rem;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .flash-success,
+    .flash-error {
+      width: 80%;
+      margin: 20px auto;
+      padding: 12px 18px;
+      border-radius: 6px;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .flash-success {
+      background-color: #d1e7dd;
+      color: #0f5132;
+      border: 1px solid #badbcc;
+    }
+
+    .flash-error {
+      background-color: #f8d7da;
+      color: #842029;
+      border: 1px solid #f5c2c7;
+    }
+
+    .route-table {
+      width: 90%;
+      margin: 40px auto;
+      border-collapse: collapse;
+      background-color: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .route-table th {
+      background-color: #5A8DEE;
+      color: white;
+      padding: 14px;
+      font-size: 1rem;
+    }
+
+    .route-table td {
+      padding: 12px;
+      text-align: center;
+      border: 1px solid #e0e0e0;
+      background-color: #fdfdfd;
+      font-size: 1rem;
+    }
+
+    .route-table tr:nth-child(even) {
+      background-color: #f5f7fa;
+    }
+
+    .route-table tr:hover {
+      background-color: #e9f1fb;
+    }
+
+    .add-route-form {
+      width: 60%;
+      margin: 50px auto;
+      background-color: #ffffff;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .add-route-form h3 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      color: #444;
+    }
+
+    .add-route-form label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #555;
+    }
+
+    .add-route-form input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      background-color: #fdfdfd;
+      margin-bottom: 12px;
+    }
+
+    .add-route-form button {
+      display: block;
+      margin: 25px auto 0;
+      background-color: #5A8DEE;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: bold;
+      transition: background-color 0.2s ease-in-out;
+    }
+
+    .add-route-form button:hover {
+      background-color: #3f6dd8;
+    }
+
+    form[method="GET"] {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin: 30px auto 0;
+      width: 90%;
+    }
+
+    form[method="GET"] select {
+      padding: 10px 15px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    form[method="GET"] .btn {
+      background-color: #5A8DEE;
+      color: white;
+      font-weight: bold;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    form[method="GET"] .btn:hover {
+      background-color: #4a6dc0;
+    }
+    header {
+      background: linear-gradient(to right, #6b4bff, #9e8cff);
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+  
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+  
+    .logo img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+  
+    .nav-links a {
+      text-decoration: none;
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      color: white;
+      border-radius: 5px;
+      transition: background 0.3s, color 0.3s;
+    }
+  
+    .nav-links a:hover {
+      background-color: rgba(56, 117, 112, 0.24);
+      color: white;
+    }
+  
+    .logout-form {
+      margin-left: 20px;
+    }
+  
+    h1 {
+      font-weight: 600;
+      color: #453c99;
+      margin-top: 2rem;
+    }
+  
+    .btn-toggle {
+      margin: 20px auto;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+  
+    .btn-toggle .btn {
+      min-width: 120px;
+      transition: all 0.2s ease;
+      border-radius: 8px;
+    }
+  
+    .btn-toggle .btn:hover,
+    .btn-toggle .btn:focus {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <img src="/images/Logo.png" alt="Logo" style="width: 60px; height: 60px; border-radius: 50%;">
+      </div>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/adminDashboard">Dashboard</a>
+        <a href="/manage-buses">Manage Buses</a>
+        <a href="/manage-employees">Manage Employees</a>
+        <a href="/assign-routes" class="active-link">Assign Routes</a>
+        <form class="logout-form" action="/logout" method="GET" style="margin:0px; width: 100px;">
+          <button type="submit">Logout</button>
+        </form>
+      </div>
+    </nav>
+  </header>
+  <div id="dummy"></div>
+  <h1 style="color: #6b4bff;">Manage Routes</h1>
+
+  <% if (messages.success_msg) { %>
+    <div class="flash-success">
+      <% messages.success_msg.forEach(msg => { %><p><%= msg %></p><% }) %>
+    </div>
+  <% } %>
+
+  <% if (messages.error_msg) { %>
+    <div class="flash-error">
+      <% messages.error_msg.forEach(msg => { %><p><%= msg %></p><% }) %>
+    </div>
+  <% } %>
+
+  <table class="route-table">
+    <thead>
+      <tr>
+        <th>From</th>
+        <th>To</th>
+        <th>Distance (km)</th>
+        <th>Estimated Duration</th>
+        <th>Fare (₹)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% routes.forEach(route => { %>
+        <tr>
+          <td><%= route.from_loc %></td>
+          <td><%= route.to_loc %></td>
+          <td><%= route.distance %></td>
+          <td><%= route.estimated_duration %></td>
+          <td><%= route.fare || 'N/A' %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+  <form class="add-route-form" action="/routes" method="POST">
+    <h3 style="text-align: center; color: #6b4bff;">Add New Route</h3>
+
+    <label for="from_loc">From Location</label>
+    <input type="text" name="from_loc" id="from_loc" required>
+
+    <label for="to_loc">To Location</label>
+    <input type="text" name="to_loc" id="to_loc" required>
+
+    <label for="distance">Distance (in km)</label>
+    <input type="number" name="distance" id="distance" step="0.01" required>
+
+    <label for="estimated_duration">Estimated Duration (HH:MM)</label>
+    <input type="time" name="estimated_duration" id="estimated_duration" required>
+
+    <label for="fare">Fare (in ₹)</label>
+    <input type="number" name="fare" id="fare" step="0.01" required>
+
+    <button type="submit">Add Route</button>
+  </form>
+</body>
+</html>
